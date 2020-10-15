@@ -16,28 +16,24 @@ public class DatabaseService {
 	private HttpStatus status;
 	private List<String> ids = new ArrayList<String>();
 	
-	public String addChampionToPlayer(List<Champion> champions, List<Player> players, int idPlayerSent, int idChampionSent) {
+	public String addChampionToPlayer(List<Champion> champions, List<Player> players, Player playerSent, int idChampionSent) {
 		boolean encontradoId = false;
-		boolean encontradoPlayer = false;
-		boolean encontradoChampion = false;
 		
 		response = "Campeon o Jugador no encontrado";
 		status = HttpStatus.NOT_FOUND;
 
-		Player player = new Player();
-		Champion champion = new Champion();
+		Player player = null;
+		Champion champion = null;
 		
 		for (Player i : players) {
-			if (i.getId() == idPlayerSent) {
+			if (i.getId() == playerSent.getId()) {
 				player = i;
-				encontradoPlayer = true;
 			}
 		}
 		
 		for (Champion i : champions) {
 			if (i.getId() == idChampionSent) {
 				champion = i;
-				encontradoChampion = true;
 			}
 		}
 		
@@ -48,7 +44,7 @@ public class DatabaseService {
 		}
 		
 		if (encontradoId == false) {
-			if (encontradoChampion && encontradoPlayer) {
+			if (champion != null && player != null) {
 				ids.add(Integer.toString(idChampionSent) + Integer.toString(player.getId()));
 				
 				player.getChampionsId().add(idChampionSent);

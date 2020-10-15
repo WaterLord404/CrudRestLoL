@@ -82,16 +82,14 @@ public class ChampionService {
 	public String deleteChampion(Champion sent, List<Player> players) {
 		response = "Campeon no encontrado";
 		status = HttpStatus.NOT_FOUND;
-		boolean encontradoChampion = false;
 		
-		Champion champion = new Champion();
+		Champion champion = null;
 		Integer idPlayer = null;
 		
 		if (champions != null && !champions.isEmpty()) {
 			for (Champion i : champions) {
 				if (i.getId() == sent.getId()) {
 					champion = i;
-					encontradoChampion = true;
 				}
 			}
 		}
@@ -110,7 +108,7 @@ public class ChampionService {
 			
 		}
 		
-		if(encontradoChampion == true) {
+		if(champion != null) {
 			champions.remove(champion);
 			response = "Campeon borrado correctamente";
 			status = HttpStatus.OK;

@@ -75,16 +75,14 @@ public class PlayerService {
 	public String deletePlayer(Player sent, List<Champion> champions) {
 		response = "Player no encontrado";
 		status = HttpStatus.NOT_FOUND;
-		boolean encontradoPlayer = false;
 		
-		Player player = new Player();
-		Player aux = new Player();
+		Player player = null;
+		Player aux = null;
 		
 		if (players != null && !players.isEmpty()) {
 			for (Player i : players) {
 				if (i.getId() == sent.getId()) {
 					player = i;
-					encontradoPlayer = true;
 				}
 			}
 		}
@@ -103,7 +101,7 @@ public class PlayerService {
 			
 		}
 		
-		if(encontradoPlayer == true) {
+		if(player != null) {
 			players.remove(player);
 			response = "Player borrado correctamente";
 			status = HttpStatus.OK;

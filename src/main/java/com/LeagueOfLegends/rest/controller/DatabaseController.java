@@ -3,11 +3,13 @@ package com.LeagueOfLegends.rest.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.LeagueOfLegends.entity.Player;
 import com.LeagueOfLegends.rest.service.ChampionService;
 import com.LeagueOfLegends.rest.service.DatabaseService;
 import com.LeagueOfLegends.rest.service.PlayerService;
@@ -28,9 +30,9 @@ public class DatabaseController {
 	private String body = new String();
 	private HttpStatus status = null;
 	
-	@PostMapping(path = "/database")
-	public ResponseEntity<?> addChampionToPlayer(@RequestParam int IdPlayerSent, int IdChampionSent) {
-		body = DBService.addChampionToPlayer(championService.getChampions(), playerService.getPlayers(), IdPlayerSent, IdChampionSent);
+	@PostMapping(path = "/player/{id}")
+	public ResponseEntity<?> addChampionToPlayer(@RequestBody Player player, @PathVariable int id) {
+		body = DBService.addChampionToPlayer(championService.getChampions(), playerService.getPlayers(), player, id);
 		status = DBService.getStatus();
 
 		return ResponseEntity.status(status).body(body);
