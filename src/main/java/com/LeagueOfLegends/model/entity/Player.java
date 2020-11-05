@@ -1,4 +1,4 @@
-package com.LeagueOfLegends.entity;
+package com.LeagueOfLegends.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;

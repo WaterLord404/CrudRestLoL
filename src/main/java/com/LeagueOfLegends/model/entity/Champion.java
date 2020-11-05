@@ -1,4 +1,4 @@
-package com.LeagueOfLegends.entity;
+package com.LeagueOfLegends.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -210,7 +210,7 @@ public class Champion implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -223,7 +223,10 @@ public class Champion implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Champion other = (Champion) obj;
-		if (id != other.id)
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
