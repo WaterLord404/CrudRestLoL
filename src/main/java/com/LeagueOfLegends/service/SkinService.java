@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.LeagueOfLegends.entity.Skin;
+import com.LeagueOfLegends.model.entity.Skin;
 
 @Service
 public class SkinService {

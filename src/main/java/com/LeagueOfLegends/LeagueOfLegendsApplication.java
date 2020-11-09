@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
-@EntityScan(basePackages = {"com.LeagueOfLegends.entity"})
+@EntityScan(basePackages = {"com.LeagueOfLegends.model.entity"})
 public class LeagueOfLegendsApplication {
 
 	public static void main(String[] args) {

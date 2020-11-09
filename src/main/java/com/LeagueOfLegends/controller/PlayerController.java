@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.LeagueOfLegends.entity.Player;
+import com.LeagueOfLegends.model.entity.Player;
 import com.LeagueOfLegends.service.PlayerService;
 
 @RestController

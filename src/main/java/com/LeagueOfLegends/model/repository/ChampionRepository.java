@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.LeagueOfLegends.entity.Champion;
+import com.LeagueOfLegends.model.entity.Champion;
 
 @Repository(value = "championRepository")
 public interface ChampionRepository extends CrudRepository<Champion, Integer>{
