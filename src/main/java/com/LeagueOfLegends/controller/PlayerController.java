@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.LeagueOfLegends.model.entity.Player;
-import com.LeagueOfLegends.service.PlayerService;
+import com.LeagueOfLegends.service.impl.PlayerServiceImpl;
 
 @RestController
 @RequestMapping(path = "/lol")
 public class PlayerController {
 
 	@Autowired
-	private PlayerService playerService;
+	private PlayerServiceImpl playerService;
 
 	private String body = new String();
 	private HttpStatus status = null;

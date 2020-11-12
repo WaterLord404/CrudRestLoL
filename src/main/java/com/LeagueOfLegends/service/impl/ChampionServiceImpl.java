@@ -1,19 +1,31 @@
-package com.LeagueOfLegends.service;
+package com.LeagueOfLegends.service.impl;
 
-import java.util.List; 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.LeagueOfLegends.model.entity.Champion;
+import com.LeagueOfLegends.model.entity.Document;
 import com.LeagueOfLegends.model.repository.ChampionRepository;
+import com.LeagueOfLegends.model.repository.DocumentRepository;
+import com.LeagueOfLegends.service.FileHandlerI;
+import com.LeagueOfLegends.service.handler.FileHandlerService;
+import com.LeagueOfLegends.service.utils.AbstractServiceUtils;
 
 @Service
-public class ChampionService {
+public class ChampionServiceImpl extends AbstractServiceUtils implements FileHandlerI<Champion> {
 
 	private String response = new String();
 	private HttpStatus status;
+
+	@Autowired
+	private DocumentRepository docReposiroty;
+
+	@Autowired
+	private FileHandlerService fhService;
 
 	@Autowired
 	private ChampionRepository championRepository;
@@ -21,10 +33,10 @@ public class ChampionService {
 	public String addChampion(Champion sent) {
 		response = "Ya existe el campeon";
 		status = HttpStatus.CONFLICT;
-		
-		//si encuentra 2 campeones por el nombre no se añade
-		if(championRepository.findChampionByName(sent.getName()).size() != 1) {
-			
+
+		// si encuentra 2 campeones por el nombre no se añade
+		if (championRepository.findChampionByName(sent.getName()).size() != 1) {
+
 			Champion champion = new Champion(sent.getName(), sent.getAttackDamage(), sent.getAbilityPower(),
 					sent.getArmor(), sent.getMagicResist(), sent.getRangeAttack(), sent.getCriticalDamage(),
 					sent.getCooldownReduction(), sent.getSpeedMovement());
@@ -41,18 +53,18 @@ public class ChampionService {
 	public List<Champion> getAllChampions() {
 		status = HttpStatus.NOT_FOUND;
 		List<Champion> champions = null;
-		
+
 		if (championRepository.findAll().spliterator().getExactSizeIfKnown() != 0) {
 			champions = (List<Champion>) championRepository.findAll();
 			status = HttpStatus.OK;
 		}
 		return champions;
 	}
-	
+
 	public List<Champion> getAllChampionsOrderedByAttackDamageDesc() {
 		status = HttpStatus.NOT_FOUND;
 		List<Champion> champions = null;
-		
+
 		if (championRepository.findAll().spliterator().getExactSizeIfKnown() != 0) {
 			champions = (List<Champion>) championRepository.findAllOrderedByAttackDamageDesc();
 			status = HttpStatus.OK;
@@ -63,7 +75,7 @@ public class ChampionService {
 	public Champion getChampion(int id) {
 		status = HttpStatus.NOT_FOUND;
 		Champion champion = null;
-		
+
 		if (championRepository.findChampionById(id) != null) {
 			champion = championRepository.findChampionById(id);
 			status = HttpStatus.OK;
@@ -109,6 +121,26 @@ public class ChampionService {
 
 	public HttpStatus getStatus() {
 		return status;
+	}
+
+	@Override
+	public Champion addDocument(String id, MultipartFile mpf) {
+		Champion champion = null;
+		status = HttpStatus.NOT_FOUND;
+
+		try {
+			Document doc = docReposiroty
+					.save(new Document(fhService.createBlob(mpf), mpf.getName(), Integer.valueOf((int) mpf.getSize())));
+
+			champion = getChampion(Integer.parseInt(id));
+			champion.getDocuments().add(doc);
+			championRepository.save(champion);
+			status = HttpStatus.CREATED;
+		} catch (NumberFormatException e) {
+			logger.debug(String.format("Champion with identifier %s could not be found ", id));
+		}
+
+		return champion;
 	}
 
 }

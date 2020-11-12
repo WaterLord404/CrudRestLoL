@@ -1,4 +1,4 @@
-package com.LeagueOfLegends.service;
+package com.LeagueOfLegends.service.impl;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.LeagueOfLegends.model.entity.Player;
 import com.LeagueOfLegends.model.repository.PlayerRepository;
 
 @Service
-public class PlayerService {
+public class PlayerServiceImpl {
 
 	private String response = new String();
 	private HttpStatus status;

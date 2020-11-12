@@ -1,4 +1,4 @@
-package com.LeagueOfLegends.service;
+package com.LeagueOfLegends.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import com.LeagueOfLegends.model.repository.ChampionRepository;
 import com.LeagueOfLegends.model.repository.PlayerRepository;
 
 @Service
-public class DatabaseService {
+public class DatabaseServiceImpl {
 
 	private String response = new String();
 	private HttpStatus status;

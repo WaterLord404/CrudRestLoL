@@ -1,4 +1,4 @@
-package com.LeagueOfLegends.service;
+package com.LeagueOfLegends.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.LeagueOfLegends.model.entity.Skin;
 
 @Service
-public class SkinService {
+public class SkinServiceImpl {
 	private List<Skin> skins = new ArrayList<>();
 	private String response = new String();
 	private HttpStatus status;

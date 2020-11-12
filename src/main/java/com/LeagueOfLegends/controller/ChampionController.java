@@ -12,24 +12,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.LeagueOfLegends.model.entity.Champion;
-import com.LeagueOfLegends.service.ChampionService;
+import com.LeagueOfLegends.service.impl.ChampionServiceImpl;
 
 @RestController
 @RequestMapping(path = "/lol")
 public class ChampionController {
 
 	@Autowired
-	private ChampionService championService;
-	
+	private ChampionServiceImpl championService;
+
 	private String body = new String();
 	private HttpStatus status = null;
 
 	@PostMapping(path = "/champion")
 	public ResponseEntity<?> addChampion(@RequestBody Champion sent) {
 		body = championService.addChampion(sent);
+		status = championService.getStatus();
+
+		return ResponseEntity.status(status).body(body);
+	}
+
+	@PostMapping(path = "/{id}/document")
+	public ResponseEntity<?> uploadFile(@PathVariable String id, @RequestParam MultipartFile mpFile) {
+		Champion body = championService.addDocument(id, mpFile);
 		status = championService.getStatus();
 
 		return ResponseEntity.status(status).body(body);
@@ -47,15 +57,15 @@ public class ChampionController {
 	public ResponseEntity<?> getAllChampions() {
 		List<Champion> body = championService.getAllChampions();
 		status = championService.getStatus();
-		
+
 		return ResponseEntity.status(status).body(body);
 	}
-	
+
 	@GetMapping(path = "/champion/attack-dmg/desc")
 	public ResponseEntity<?> getAllChampionsOrderedByAttackDamageDesc() {
 		List<Champion> body = championService.getAllChampionsOrderedByAttackDamageDesc();
 		status = championService.getStatus();
-		
+
 		return ResponseEntity.status(status).body(body);
 	}
 
@@ -63,7 +73,7 @@ public class ChampionController {
 	public ResponseEntity<?> putChampion(@RequestBody Champion sent) {
 		body = championService.putChampion(sent);
 		status = championService.getStatus();
-		
+
 		return ResponseEntity.status(status).body(body);
 	}
 
@@ -71,7 +81,7 @@ public class ChampionController {
 	public ResponseEntity<?> deleteChampion(@RequestBody Champion sent) {
 		body = championService.deleteChampion(sent);
 		status = championService.getStatus();
-		
+
 		return ResponseEntity.status(status).body(body);
 	}
 

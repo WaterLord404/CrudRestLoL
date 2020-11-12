@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -59,27 +60,22 @@ public class Champion implements Serializable {
 	private boolean active;
 
 	@JsonIgnoreProperties(value = "champions")
-	@ManyToMany(fetch = FetchType.LAZY,
-    cascade =
-    {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST
-    },
-    targetEntity = Player.class)
-	@JoinTable(
-	        name = "player_champion", 
-	        joinColumns = { @JoinColumn(name = "idChampion", nullable = false,updatable = false)},
-	        inverseJoinColumns = { @JoinColumn(name = "idPlayer", nullable = false,updatable = false) },
-	        
-	        foreignKey = @ForeignKey(name = "fk_id_champion", value = ConstraintMode.CONSTRAINT),
-	        inverseForeignKey = @ForeignKey(name = "fk_id_player", value = ConstraintMode.CONSTRAINT)
-	    )
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.PERSIST }, targetEntity = Player.class)
+	@JoinTable(name = "player_champion", joinColumns = {
+			@JoinColumn(name = "idChampion", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "idPlayer", nullable = false, updatable = false) },
+
+			foreignKey = @ForeignKey(name = "fk_id_champion", value = ConstraintMode.CONSTRAINT), inverseForeignKey = @ForeignKey(name = "fk_id_player", value = ConstraintMode.CONSTRAINT))
 	private List<Player> players;
 
 	@OneToMany(mappedBy = "champion")
 	private List<Skin> skins;
+
+	@OneToMany
+	@JoinColumn(name = "doc_id", foreignKey = @ForeignKey(name = "doc_id_fk"), nullable = true)
+	@JsonIgnore
+	private List<Document> documents;
 
 	public Champion() {
 	}
@@ -203,6 +199,14 @@ public class Champion implements Serializable {
 		this.skins = skins;
 	}
 
+	public List<Document> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
