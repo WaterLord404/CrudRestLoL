@@ -1,6 +1,6 @@
 package com.LeagueOfLegends.model.entity;
 
-import java.sql.Blob;
+import java.sql.Blob; 
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,41 +10,47 @@ import javax.persistence.Id;
 @Entity
 public class Document {
 
+	/**
+	 * 
+	 */
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	private Blob blob;
-	
+	private Integer id;
+
+	private Blob picture;
+
 	private String fileName;
 	
+	private String fileType;
+
 	private Integer fileSize;
-	
+
 	public Document() {
 		super();
 	}
-	
-	public Document(Blob blob, String name, Integer size) {
-		this.blob = blob;
+
+	public Document(Blob pic, String name, String fileType,Integer size) {
+		this.picture = pic;
 		this.fileName = name;
 		this.fileSize = size;
+		this.fileType = fileType;
 	}
-	
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Blob getblob() {
-		return blob;
+	public Blob getPicture() {
+		return picture;
 	}
 
-	public void setblob(Blob blob) {
-		this.blob = blob;
+	public void setPicture(Blob picture) {
+		this.picture = picture;
 	}
 
 	public String getFileName() {
@@ -62,5 +68,15 @@ public class Document {
 	public void setFileSize(Integer fileSize) {
 		this.fileSize = fileSize;
 	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
 	
+	
+
 }

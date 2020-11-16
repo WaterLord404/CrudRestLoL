@@ -16,7 +16,7 @@ import com.LeagueOfLegends.service.handler.FileHandlerService;
 import com.LeagueOfLegends.service.utils.AbstractServiceUtils;
 
 @Service
-public class ChampionServiceImpl extends AbstractServiceUtils implements FileHandlerI<Champion> {
+public class ChampionServiceImpl extends AbstractServiceUtils implements FileHandlerI<Champion>{
 
 	private String response = new String();
 	private HttpStatus status;
@@ -119,28 +119,32 @@ public class ChampionServiceImpl extends AbstractServiceUtils implements FileHan
 		return response;
 	}
 
-	public HttpStatus getStatus() {
-		return status;
-	}
-
 	@Override
 	public Champion addDocument(String id, MultipartFile mpf) {
-		Champion champion = null;
 		status = HttpStatus.NOT_FOUND;
 
+		Champion champion = null;
 		try {
 			Document doc = docReposiroty
-					.save(new Document(fhService.createBlob(mpf), mpf.getName(), Integer.valueOf((int) mpf.getSize())));
-
-			champion = getChampion(Integer.parseInt(id));
+					.save(new Document(fhService.createBlob(mpf), 
+							mpf.getName(),mpf.getContentType(), 
+							Integer.valueOf((int) mpf.getSize())));
+			
+			
+			champion = championRepository.findChampionById(Integer.parseInt(id));
 			champion.getDocuments().add(doc);
 			championRepository.save(champion);
+		
 			status = HttpStatus.CREATED;
 		} catch (NumberFormatException e) {
 			logger.debug(String.format("Champion with identifier %s could not be found ", id));
 		}
-
 		return champion;
 	}
+
+	public HttpStatus getStatus() {
+		return status;
+	}
+
 
 }

@@ -38,7 +38,9 @@ public class ChampionController {
 	}
 
 	@PostMapping(path = "/{id}/document")
-	public ResponseEntity<?> uploadFile(@PathVariable String id, @RequestParam MultipartFile mpFile) {
+	public ResponseEntity<?> uploadFile(@PathVariable(required = false) String id,
+			@RequestParam(name = "mpFile", required = false) MultipartFile mpFile) {
+		
 		Champion body = championService.addDocument(id, mpFile);
 		status = championService.getStatus();
 
