@@ -1,9 +1,14 @@
 package com.LeagueOfLegends.service.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,13 +21,13 @@ import com.LeagueOfLegends.service.handler.FileHandlerService;
 import com.LeagueOfLegends.service.utils.AbstractServiceUtils;
 
 @Service
-public class ChampionServiceImpl extends AbstractServiceUtils implements FileHandlerI<Champion>{
+public class ChampionServiceImpl extends AbstractServiceUtils implements FileHandlerI<Champion> {
 
 	private String response = new String();
 	private HttpStatus status;
 
 	@Autowired
-	private DocumentRepository docReposiroty;
+	private DocumentRepository documentRepository;
 
 	@Autowired
 	private FileHandlerService fhService;
@@ -84,7 +89,7 @@ public class ChampionServiceImpl extends AbstractServiceUtils implements FileHan
 	}
 
 	public String putChampion(Champion sent) {
-		response = "Campeon n	o encontrado";
+		response = "Campeon no encontrado";
 		status = HttpStatus.NOT_FOUND;
 
 		if (championRepository.findChampionById(sent.getId()) != null) {
@@ -119,13 +124,17 @@ public class ChampionServiceImpl extends AbstractServiceUtils implements FileHan
 		return response;
 	}
 
+	public HttpStatus getStatus() {
+		return status;
+	}
+
 	@Override
 	public Champion addDocument(String id, MultipartFile mpf) {
 		status = HttpStatus.NOT_FOUND;
 
 		Champion champion = null;
 		try {
-			Document doc = docReposiroty
+			Document doc = documentRepository
 					.save(new Document(fhService.createBlob(mpf), 
 							mpf.getName(),mpf.getContentType(), 
 							Integer.valueOf((int) mpf.getSize())));
@@ -141,10 +150,15 @@ public class ChampionServiceImpl extends AbstractServiceUtils implements FileHan
 		}
 		return champion;
 	}
-
-	public HttpStatus getStatus() {
-		return status;
+	
+	public ResponseEntity<Resource> downloadDocument(Integer id) throws SQLException {
+		
+		Champion champion = championRepository.findById(id).get();
+		Document document = documentRepository.findById(champion.getDocuments().get(0).getId());
+		status = HttpStatus.OK;
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(document.getFileType()))
+				.header("hola", "attachment; filename=\"" + document.getFileName() + "\"")
+				.body(new ByteArrayResource(document.getPicture().getBytes(1L, (int) document.getPicture().length())));
 	}
-
 
 }

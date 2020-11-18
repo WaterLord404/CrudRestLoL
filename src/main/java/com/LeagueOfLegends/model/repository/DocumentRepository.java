@@ -6,4 +6,6 @@ import com.LeagueOfLegends.model.entity.Document;
 
 public interface DocumentRepository extends CrudRepository<Document, Long> {
 
+	Document findById(Integer id);
+
 }

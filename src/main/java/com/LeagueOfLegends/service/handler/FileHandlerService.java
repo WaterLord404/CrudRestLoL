@@ -1,6 +1,6 @@
 package com.LeagueOfLegends.service.handler;
 
-import java.io.IOException; 
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 

@@ -1,8 +1,10 @@
 package com.LeagueOfLegends.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,7 +56,13 @@ public class ChampionController {
 
 		return ResponseEntity.status(status).body(body);
 	}
-
+	
+	
+	@GetMapping("/champion/download/{id}")
+	public ResponseEntity<Resource> downloadDocument(@PathVariable ("id") Integer id) throws SQLException{
+		return championService.downloadDocument(id);
+	}
+	
 	@GetMapping(path = "/champion")
 	public ResponseEntity<?> getAllChampions() {
 		List<Champion> body = championService.getAllChampions();
