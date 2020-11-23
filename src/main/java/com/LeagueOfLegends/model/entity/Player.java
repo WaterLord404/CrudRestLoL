@@ -74,10 +74,26 @@ public class Player implements Serializable {
 	private List<Champion> champions;
 
 	public Player() {
+		
 	}
 
 	public Player(String name, String nickname, String email) {
 		super();
+		this.name = name;
+		this.nickname = nickname;
+		this.email = email;
+		this.creationDate = LocalDate.now();
+		this.riotPoints = 0;
+		this.blueEssence = 0;
+		this.orangeEssence = 0;
+		this.active = false;
+
+		this.champions = new ArrayList<>();
+	}
+	
+	public Player(int id, String name, String nickname, String email) {
+		super();
+		this.id = id;
 		this.name = name;
 		this.nickname = nickname;
 		this.email = email;

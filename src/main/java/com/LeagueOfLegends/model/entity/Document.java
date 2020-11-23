@@ -1,6 +1,6 @@
 package com.LeagueOfLegends.model.entity;
 
-import java.sql.Blob; 
+import java.sql.Blob;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
