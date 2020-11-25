@@ -74,10 +74,10 @@ public class PlayerServiceImpl {
 		response = "Jugador no encontrado";
 		status = HttpStatus.NOT_FOUND;
 
-		if (playerRepository.findPlayerById(sent.getId()) != null) {
+		if (playerRepository.findPlayerByName(sent.getName()) != null) {
 			
-			playerRepository.findPlayerById(sent.getId()).setNickname(sent.getNickname());
-			playerRepository.findPlayerById(sent.getId()).setEmail(sent.getEmail());
+			playerRepository.findPlayerByName(sent.getName()).setNickname(sent.getNickname());
+			playerRepository.findPlayerByName(sent.getName()).setEmail(sent.getEmail());
 
 			//Persist data
 			playerRepository.save(playerRepository.findPlayerById(sent.getId()));

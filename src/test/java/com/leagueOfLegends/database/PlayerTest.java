@@ -1,6 +1,6 @@
 package com.leagueOfLegends.database;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mock; 
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,21 +16,24 @@ public class PlayerTest {
 	
 	private PlayerRepository mockedRepo;
 	
-	private Player mokedPlayer;
+	private Player mokedPlayer = new Player("Test","David","test@gmail.com");
 	
 	@BeforeEach
 	private void init() {
-		sut = new PlayerServiceImpl(mockedRepo);
-		mokedPlayer = mock(Player.class);
 		mockedRepo = mock(PlayerRepository.class);
+		mokedPlayer = mock(Player.class);
+	
+		sut = new PlayerServiceImpl(mockedRepo);
 	}
 	
 	@Test
-	private void updatePlayerTest() {
-		Player playerSent = new Player(1,"Test", "Player", "test@player");
+	public void updatePlayerTest() {
+		Player playerSent = new Player("Test", "Cambiado", "test@@@@@@@");
+	
+		when(mockedRepo.findPlayerByName(playerSent.getName())).thenReturn(mokedPlayer);
+
 		sut.putPlayer(playerSent);
 		
-		when(mockedRepo.findPlayerById(playerSent.getId())).thenReturn(playerSent);
-		
+		assert(playerSent.getNickname() == "Cambiado");
 	}
 }
