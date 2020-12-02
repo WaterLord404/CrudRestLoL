@@ -16,7 +16,7 @@ public class PlayerTest {
 	
 	private PlayerRepository mockedRepo;
 	
-	private Player mokedPlayer = new Player("Test","David","test@gmail.com");
+	private Player mokedPlayer;
 	
 	@BeforeEach
 	private void init() {
@@ -32,8 +32,10 @@ public class PlayerTest {
 	
 		when(mockedRepo.findPlayerByName(playerSent.getName())).thenReturn(mokedPlayer);
 
+		when(mokedPlayer.getNickname()).thenReturn("Cambiado");
+		
 		sut.putPlayer(playerSent);
 		
-		assert(playerSent.getNickname() == "Cambiado");
+		assert(mokedPlayer.getNickname() == "Cambiado");
 	}
 }
