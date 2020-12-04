@@ -23,7 +23,7 @@ public class PlayerTest {
 		mockedRepo = mock(PlayerRepository.class);
 		mokedPlayer = mock(Player.class);
 	
-		sut = new PlayerServiceImpl(mockedRepo);
+//		sut = new PlayerServiceImpl(mockedRepo);
 	}
 	
 	@Test

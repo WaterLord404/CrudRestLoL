@@ -14,13 +14,14 @@ public class PlayerServiceImpl {
 
 	private String response = new String();
 	private HttpStatus status;
-
+	
+	@Autowired
 	private PlayerRepository playerRepository;	
 
-	@Autowired
-	public PlayerServiceImpl(PlayerRepository mockedRepo) {
-		this.playerRepository = mockedRepo;
-	}
+//	@Autowired
+//	public PlayerServiceImpl(PlayerRepository mockedRepo) {
+//		this.playerRepository = mockedRepo;
+//	}
 
 	public String addPlayer(Player sent) {
 		response = "Error inesperado";
