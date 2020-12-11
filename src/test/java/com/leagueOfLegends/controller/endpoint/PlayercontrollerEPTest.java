@@ -30,7 +30,7 @@ public class PlayercontrollerEPTest {
 
 	@Test
 	public void addPlayerTest() {
-		Integer id = template.postForObject(getURL(), new Player("Test", "test", "tesssT"), Integer.class);
+		int id = template.postForObject(getURL(), new Player("Test", "test", "tesssT"), Player.class).getId();
 		
 		assert(template.getForEntity(getURL()+"/"+id, Player.class).getBody()!=null);
 

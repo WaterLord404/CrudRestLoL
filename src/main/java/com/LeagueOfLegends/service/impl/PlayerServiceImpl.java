@@ -15,16 +15,14 @@ public class PlayerServiceImpl {
 	private String response = new String();
 	private HttpStatus status;
 	
-	@Autowired
 	private PlayerRepository playerRepository;	
 
-//	@Autowired
-//	public PlayerServiceImpl(PlayerRepository mockedRepo) {
-//		this.playerRepository = mockedRepo;
-//	}
+	@Autowired
+	public PlayerServiceImpl(PlayerRepository mockedRepo) {
+		this.playerRepository = mockedRepo;
+	}
 
-	public String addPlayer(Player sent) {
-		response = "Error inesperado";
+	public Player addPlayer(Player sent) {
 		status = HttpStatus.CONFLICT;
 
 		Player player = new Player(sent.getName(), sent.getNickname(), sent.getEmail());
@@ -33,9 +31,8 @@ public class PlayerServiceImpl {
 		playerRepository.save(player);
 
 		status = HttpStatus.CREATED;
-		response = "Jugador creado correctamente";
 		
-		return response;
+		return player;
 	}
 
 	public List<Player> getAllPlayers() {

@@ -30,7 +30,7 @@ public class PlayerController {
 
 	@PostMapping(path = "/player")
 	public ResponseEntity<?> addPlayer(@RequestBody Player sent) {
-		body = playerService.addPlayer(sent);
+		Player body = playerService.addPlayer(sent);
 		status = playerService.getStatus();
 
 		return ResponseEntity.status(status).body(body);
