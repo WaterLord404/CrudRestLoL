@@ -2,7 +2,6 @@ package com.LeagueOfLegends.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -35,15 +34,23 @@ public class Player implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idPlayer")
 	private int id;
+	
 	@NonNull
 	private String name;
+	
 	@NonNull
 	private String nickname;
+	
+	@NonNull
+	private String password;
+	
 	@NonNull
 	private String email;
 
 	private int riotPoints;
+	
 	private int blueEssence;
+	
 	private int orangeEssence;
 
 	@DateTimeFormat(pattern = "ddMMyyyy")
@@ -73,23 +80,7 @@ public class Player implements Serializable {
     )
 	private List<Champion> champions;
 
-	public Player() {
-		
-	}
-
-	public Player(String name, String nickname, String email) {
-		super();
-		this.name = name;
-		this.nickname = nickname;
-		this.email = email;
-		this.creationDate = LocalDate.now();
-		this.riotPoints = 0;
-		this.blueEssence = 0;
-		this.orangeEssence = 0;
-		this.active = false;
-
-		this.champions = new ArrayList<>();
-	}
+	public Player() { }
 
 	public int getId() {
 		return id;
@@ -109,6 +100,14 @@ public class Player implements Serializable {
 
 	public String getNickname() {
 		return nickname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setNickname(String nickname) {

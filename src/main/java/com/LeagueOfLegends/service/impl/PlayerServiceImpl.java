@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.LeagueOfLegends.model.entity.Player;
+import com.LeagueOfLegends.model.entity.dto.PlayerDTO;
+import com.LeagueOfLegends.model.entity.dto.PlayerDTOConverter;
 import com.LeagueOfLegends.model.repository.PlayerRepository;
 
 @Service
@@ -21,11 +23,15 @@ public class PlayerServiceImpl {
 	public PlayerServiceImpl(PlayerRepository mockedRepo) {
 		this.playerRepository = mockedRepo;
 	}
+	
+	@Autowired
+	private PlayerDTOConverter playerDTOConverter;
 
-	public Player addPlayer(Player sent) {
+	public Player addPlayer(PlayerDTO playerDTO) {
 		status = HttpStatus.CONFLICT;
 
-		Player player = new Player(sent.getName(), sent.getNickname(), sent.getEmail());
+		// DTO to player
+		Player player = playerDTOConverter.PlayerDTOToPlayer(playerDTO);
 
 		//Persist data
 		playerRepository.save(player);
@@ -57,15 +63,18 @@ public class PlayerServiceImpl {
 		return players;
 	}
 	
-	public Player getPlayer(int id) {
+	public PlayerDTO getPlayer(int id) {
 		status = HttpStatus.NOT_FOUND;
-		Player player = null;
+		PlayerDTO dto = null;
 		
 		if (playerRepository.findPlayerById(id) != null) {
-			player = playerRepository.findPlayerById(id);
+			
+			// player to DTO
+			dto = playerDTOConverter.playerToPlayerDTO(playerRepository.findPlayerById(id));
+			
 			status = HttpStatus.OK;
 		}
-		return player;
+		return dto;
 	}
 
 	public String putPlayer(Player sent) {

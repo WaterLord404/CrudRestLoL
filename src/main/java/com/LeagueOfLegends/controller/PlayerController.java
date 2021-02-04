@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.LeagueOfLegends.model.entity.Player;
+import com.LeagueOfLegends.model.entity.dto.PlayerDTO;
 import com.LeagueOfLegends.service.impl.PlayerServiceImpl;
 
 @RestController
@@ -29,7 +30,7 @@ public class PlayerController {
 	private HttpStatus status = null;
 
 	@PostMapping(path = "/player")
-	public ResponseEntity<?> addPlayer(@RequestBody Player sent) {
+	public ResponseEntity<?> addPlayer(@RequestBody PlayerDTO sent) {
 		Player body = playerService.addPlayer(sent);
 		status = playerService.getStatus();
 
@@ -38,7 +39,7 @@ public class PlayerController {
 
 	@GetMapping(path = "/player/{id}")
 	public ResponseEntity<?> getPlayer(@PathVariable int id) {
-		Player body = playerService.getPlayer(id);
+		PlayerDTO body = playerService.getPlayer(id);
 		status = playerService.getStatus();
 
 		return ResponseEntity.status(status).body(body);
