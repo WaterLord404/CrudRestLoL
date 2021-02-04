@@ -25,13 +25,13 @@ public class PlayerServiceImpl {
 	}
 	
 	@Autowired
-	private PlayerDTOConverter playerDTOConverter;
+	private PlayerDTOConverter converter;
 
 	public Player addPlayer(PlayerDTO playerDTO) {
 		status = HttpStatus.CONFLICT;
 
 		// DTO to player
-		Player player = playerDTOConverter.PlayerDTOToPlayer(playerDTO);
+		Player player = converter.playerDTOToPlayer(playerDTO);
 
 		//Persist data
 		playerRepository.save(player);
@@ -70,7 +70,7 @@ public class PlayerServiceImpl {
 		if (playerRepository.findPlayerById(id) != null) {
 			
 			// player to DTO
-			dto = playerDTOConverter.playerToPlayerDTO(playerRepository.findPlayerById(id));
+			dto = converter.playerToPlayerDTO(playerRepository.findPlayerById(id));
 			
 			status = HttpStatus.OK;
 		}

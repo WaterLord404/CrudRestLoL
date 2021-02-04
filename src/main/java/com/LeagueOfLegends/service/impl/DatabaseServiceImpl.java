@@ -27,7 +27,7 @@ public class DatabaseServiceImpl {
 		if(championRepository.findChampionByName(championName) != null && playerRepository.findPlayerById(playerID) != null) {
 			
 			//coge la lista de champion del player y le añade el nuevo
-			playerRepository.findPlayerById(playerID).getchampions().add(championRepository.findChampionByName(championName).get(0));
+			playerRepository.findPlayerById(playerID).getChampions().add(championRepository.findChampionByName(championName).get(0));
 			
 			//persist
 			playerRepository.save(playerRepository.findPlayerById(playerID));

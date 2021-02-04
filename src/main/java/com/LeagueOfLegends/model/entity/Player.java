@@ -85,94 +85,152 @@ public class Player implements Serializable {
 	public int getId() {
 		return id;
 	}
-	
+
+
+
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+
 
 	public String getName() {
 		return name;
 	}
 
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
 	public String getNickname() {
 		return nickname;
 	}
 
-	public String getPassword() {
-		return password;
-	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+
 	public String getEmail() {
 		return email;
 	}
+
+
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+
+
 	public int getRiotPoints() {
 		return riotPoints;
 	}
+
+
 
 	public void setRiotPoints(int riotPoints) {
 		this.riotPoints = riotPoints;
 	}
 
+
+
 	public int getBlueEssence() {
 		return blueEssence;
 	}
+
+
 
 	public void setBlueEssence(int blueEssence) {
 		this.blueEssence = blueEssence;
 	}
 
+
+
 	public int getOrangeEssence() {
 		return orangeEssence;
 	}
+
+
 
 	public void setOrangeEssence(int orangeEssence) {
 		this.orangeEssence = orangeEssence;
 	}
 
-	public LocalDate getcreationDate() {
+
+
+	public LocalDate getCreationDate() {
 		return creationDate;
 	}
+
+
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+
+
 
 	public LocalDate getLastTimeActiveDate() {
 		return lastTimeActiveDate;
 	}
 
+
+
 	public void setLastTimeActiveDate(LocalDate lastTimeActiveDate) {
 		this.lastTimeActiveDate = lastTimeActiveDate;
 	}
+
+
 
 	public boolean isActive() {
 		return active;
 	}
 
+
+
 	public void setActive(boolean active) {
 		this.active = active;
 	}
 
-	public List<Champion> getchampions() {
+
+
+	public List<Champion> getChampions() {
 		return champions;
 	}
 
-	public void setchampions(List<Champion> champions) {
+
+
+	public void setChampions(List<Champion> champions) {
 		this.champions = champions;
 	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
 
 	@Override
 	public int hashCode() {
