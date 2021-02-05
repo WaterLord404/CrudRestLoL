@@ -1,5 +1,8 @@
 package com.LeagueOfLegends.model.entity.dto;
 
+import java.util.Set;
+
+import com.LeagueOfLegends.model.entity.UserRole;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -13,6 +16,8 @@ public class PlayerDTO {
 	private String password;
 	
 	private String email;
+	
+	private Set<UserRole> roles;
 
 	private int riotPoints;
 	
@@ -48,6 +53,14 @@ public class PlayerDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Set<UserRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<UserRole> roles) {
+		this.roles = roles;
 	}
 
 	public int getRiotPoints() {

@@ -31,7 +31,7 @@ public class PlayerController {
 
 	@PostMapping(path = "/player")
 	public ResponseEntity<?> addPlayer(@RequestBody PlayerDTO sent) {
-		Player body = playerService.addPlayer(sent);
+		PlayerDTO body = playerService.addPlayer(sent);
 		status = playerService.getStatus();
 
 		return ResponseEntity.status(status).body(body);

@@ -2,12 +2,14 @@ package com.LeagueOfLegends.model.entity.dto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.LeagueOfLegends.model.entity.Player;
+import com.LeagueOfLegends.model.entity.UserRole;
 
 @Component
 public class PlayerDTOConverter {
@@ -30,6 +32,7 @@ public class PlayerDTOConverter {
 		player.setCreationDate(LocalDate.now());
 		player.setLastTimeActiveDate(LocalDate.now());
 		player.setChampions(new ArrayList<>());
+		player.setRoles(Set.of(UserRole.USER));
 		
 		return player;
 	}
@@ -39,8 +42,9 @@ public class PlayerDTOConverter {
 		
 		dto.setName(player.getName());
 		dto.setEmail(player.getEmail());
-		dto.setNickname(player.getNickname());
+		dto.setNickname(player.getUsername());
 		dto.setRiotPoints(player.getRiotPoints());
+		dto.setRoles(player.getRoles());
 		
 		return dto;
 	}

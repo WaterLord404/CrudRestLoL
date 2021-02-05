@@ -2,12 +2,19 @@ package com.LeagueOfLegends.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -17,13 +24,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Player implements Serializable {
+@EntityListeners(AuditingEntityListener.class) // DateTime management, requires EnableJPAAuditing
+public class Player implements Serializable, UserDetails {
 
 	/**
 	 * 
@@ -43,6 +55,10 @@ public class Player implements Serializable {
 	
 	@NonNull
 	private String password;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Enumerated(EnumType.STRING)
+	private Set<UserRole> roles;
 	
 	@NonNull
 	private String email;
@@ -80,164 +96,147 @@ public class Player implements Serializable {
     )
 	private List<Champion> champions;
 
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles.stream().map(ur -> new SimpleGrantedAuthority("ROLE_"+ur.name())).collect(Collectors.toList());
+	}
+
+	@Override
+	public String getUsername() {
+		return this.getNickname();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return isActive();
+	}
+	
+	
 	public Player() { }
+
 
 	public int getId() {
 		return id;
 	}
 
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 
 	public String getName() {
 		return name;
 	}
 
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 	public String getNickname() {
 		return nickname;
 	}
 
-
-
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-
-
 
 	public String getPassword() {
 		return password;
 	}
 
-
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	public Set<UserRole> getRoles() {
+		return roles;
+	}
 
+	public void setRoles(Set<UserRole> roles) {
+		this.roles = roles;
+	}
 
 	public String getEmail() {
 		return email;
 	}
 
-
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
 
 	public int getRiotPoints() {
 		return riotPoints;
 	}
 
-
-
 	public void setRiotPoints(int riotPoints) {
 		this.riotPoints = riotPoints;
 	}
-
-
 
 	public int getBlueEssence() {
 		return blueEssence;
 	}
 
-
-
 	public void setBlueEssence(int blueEssence) {
 		this.blueEssence = blueEssence;
 	}
-
-
 
 	public int getOrangeEssence() {
 		return orangeEssence;
 	}
 
-
-
 	public void setOrangeEssence(int orangeEssence) {
 		this.orangeEssence = orangeEssence;
 	}
-
-
 
 	public LocalDate getCreationDate() {
 		return creationDate;
 	}
 
-
-
 	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
-
-
 
 	public LocalDate getLastTimeActiveDate() {
 		return lastTimeActiveDate;
 	}
 
-
-
 	public void setLastTimeActiveDate(LocalDate lastTimeActiveDate) {
 		this.lastTimeActiveDate = lastTimeActiveDate;
 	}
-
-
 
 	public boolean isActive() {
 		return active;
 	}
 
-
-
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
-
 
 	public List<Champion> getChampions() {
 		return champions;
 	}
 
-
-
 	public void setChampions(List<Champion> champions) {
 		this.champions = champions;
 	}
 
-
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
 	}
 
 	@Override
@@ -261,5 +260,6 @@ public class Player implements Serializable {
 				+ creationDate + ", lastTimeActiveDate=" + lastTimeActiveDate + ", active=" + active + ", champions="
 				+ champions + "]";
 	}
+
 
 }
