@@ -29,7 +29,6 @@ public class PlayerServiceImpl {
 
 	public PlayerDTO addPlayer(PlayerDTO playerDTO) {
 		status = HttpStatus.CONFLICT;
-		PlayerDTO dto = new PlayerDTO();
 		
 		// DTO to player
 		Player player = converter.playerDTOToPlayer(playerDTO);
@@ -37,11 +36,9 @@ public class PlayerServiceImpl {
 		//Persist data
 		playerRepository.save(player);
 
-		dto = converter.playerToPlayerDTO(player);
-		
 		status = HttpStatus.CREATED;
 		
-		return dto;
+		return converter.playerToPlayerDTO(player);
 	}
 
 	public List<Player> getAllPlayers() {

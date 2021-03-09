@@ -28,13 +28,13 @@ public class PlayercontrollerEPTest {
 		assert (template.getForEntity(getURL(), Player.class).getBody() == null);
 	}
 
-	@Test
-	public void addPlayerTest() {
-		int id = template.postForObject(getURL(), new Player("Test", "test", "tesssT"), Player.class).getId();
-		
-		assert(template.getForEntity(getURL()+"/"+id, Player.class).getBody()!=null);
-
-	}
+//	@Test
+//	public void addPlayerTest() {
+//		int id = template.postForObject(getURL(), new Player("Test", "test", "tesssT"), Player.class).getId();
+//		
+//		assert(template.getForEntity(getURL()+"/"+id, Player.class).getBody()!=null);
+//
+//	}
 	
 	private String getURL() {
 		return String.format(BASE_URL, port);
